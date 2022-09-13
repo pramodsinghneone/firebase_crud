@@ -15,6 +15,24 @@ class ProductCreate extends ProductsEvent {
   List<Object> get props => [name, price];
 }
 
+class ProductUpdate extends ProductsEvent {
+  final String name;
+  final String price;
+  const ProductUpdate(this.name, this.price);
+  @override
+  List<Object> get props => [name, price];
+}
+
 class ProductGetData extends ProductsEvent {
   ProductGetData();
+}
+
+class ProductUpdateEvent extends ProductsEvent {
+  final String docId;
+  final String name;
+  final String price;
+  ProductUpdateEvent(
+      {required this.docId, required this.name, required this.price});
+
+  List<Object> get props => [docId, name, price];
 }

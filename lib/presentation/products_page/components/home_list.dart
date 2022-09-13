@@ -3,6 +3,8 @@ import 'package:firebase_crud_demo/presentation/products_page/bloc/products_bloc
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../widgets/edit_dialog.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -39,7 +41,13 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       title: Text(item.name),
-                      trailing: Text(item.price.toString()),
+                      subtitle: Text("Price ${item.price.toString()}"),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          _openDialog(item);
+                        },
+                      ),
                     ),
                   ),
                 );
@@ -94,7 +102,6 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton(
                 child: const Text('Create'),
                 onPressed: () async {
-                  final String name = nameController.text;
                   final double? price = double.tryParse(priceController.text);
                   if (price != null) {
                     _postData(context);
@@ -115,5 +122,13 @@ class _HomePageState extends State<HomePage> {
     BlocProvider.of<ProductsBloc>(context).add(
       ProductCreate(nameController.text, priceController.text),
     );
+  }
+
+  void _openDialog(ProductModel model) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return EditDialog(model: model);
+        });
   }
 }

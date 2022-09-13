@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crud_demo/firebase_options.dart';
 import 'package:firebase_crud_demo/presentation/home_page.dart';
+import 'package:firebase_crud_demo/presentation/products_page/bloc/products_bloc.dart';
 import 'package:firebase_crud_demo/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +21,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (BuildContext context) => ProductRepository(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Firebase Crud',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      child: BlocProvider(
+        create: (context) => ProductsBloc(
+            productRepository:
+                RepositoryProvider.of<ProductRepository>(context)),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Firebase Crud',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: HomePageFormWidget(),
         ),
-        home: HomePageFormWidget(),
       ),
     );
   }

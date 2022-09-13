@@ -40,3 +40,15 @@ class ProductLoaded extends ProductsState {
   @override
   List<Object> get props => [productList];
 }
+
+class ProductUpdated extends ProductsState {
+  @override
+  List<Object> get props => [];
+}
+
+class ProductUpdateFailed extends ProductsState {
+  final String errorMsg;
+  ProductUpdateFailed({required this.errorMsg});
+  @override
+  List<Object> get props => [errorMsg];
+}

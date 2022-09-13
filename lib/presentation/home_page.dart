@@ -15,37 +15,38 @@ class _HomePageFormWidgetState extends State<HomePageFormWidget> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProductsBloc(
-        productRepository: RepositoryProvider.of<ProductRepository>(context),
-      ),
-      child: Scaffold(
-        key: scaffoldKey,
-        body: BlocListener<ProductsBloc, ProductsState>(
-          listener: (context, state) {
-            if (state is ProductsAdded) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Product added'),
-                  duration: Duration(seconds: 2),
-                ),
+    return Scaffold(
+      key: scaffoldKey,
+      body: BlocListener<ProductsBloc, ProductsState>(
+        listener: (context, state) {
+          if (state is ProductsAdded) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Product added'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+          if (state is ProductUpdated) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Product updated'),
+              duration: Duration(seconds: 2),
+            ));
+          }
+        },
+        child: BlocBuilder<ProductsBloc, ProductsState>(
+          builder: (context, state) {
+            if (state is ProductsAdding) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is ProductsError) {
+              return Center(
+                child: Text('Error ${state.error}'),
               );
             }
+            return HomePage();
           },
-          child: BlocBuilder<ProductsBloc, ProductsState>(
-            builder: (context, state) {
-              if (state is ProductsAdding) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (state is ProductsError) {
-                return Center(
-                  child: Text('Error ${state.error}'),
-                );
-              }
-              return HomePage();
-            },
-          ),
         ),
       ),
     );
