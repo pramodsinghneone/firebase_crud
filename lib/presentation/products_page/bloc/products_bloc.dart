@@ -37,8 +37,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       try {
         await productRepository.update(
             name: event.name, price: event.price, path: event.docId);
+        emit(ProductUpdated());
       } catch (e) {
-        emit(ProductUpdateFailed(errorMsg: 'e.toString()'));
+        emit(ProductUpdateFailed(errorMsg: e.toString()));
       }
     });
   }
