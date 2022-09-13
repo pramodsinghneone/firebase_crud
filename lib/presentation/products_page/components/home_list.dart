@@ -2,6 +2,7 @@ import 'package:firebase_crud_demo/model/product_model.dart';
 import 'package:firebase_crud_demo/presentation/products_page/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../widgets/edit_dialog.dart';
 
@@ -36,17 +37,57 @@ class _HomePageState extends State<HomePage> {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 var item = data[index];
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Text(item.name),
-                      subtitle: Text("Price ${item.price.toString()}"),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
+                return Slidable(
+                  key: ValueKey(item.docId),
+                  endActionPane: ActionPane(
+                    dismissible: DismissiblePane(onDismissed: () {}),
+                    motion: const ScrollMotion(),
+                    children: [
+                      SlidableAction(
+                        borderRadius: BorderRadius.circular(1),
+                        autoClose: true,
+                        flex: 1,
+                        padding: EdgeInsets.all(8),
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        spacing: 8,
+                        label: "Delete",
+                        onPressed: (context) {
+                          BlocProvider.of<ProductsBloc>(context)
+                              .add(ProductDeleteEvent(docId: item.docId!));
+
+                          BlocProvider.of<ProductsBloc>(context)
+                              .add(ProductGetData());
+                        },
+                      ),
+                      SlidableAction(
+                        borderRadius: BorderRadius.circular(1),
+                        autoClose: true,
+                        flex: 1,
+                        spacing: 8,
+                        backgroundColor: Colors.blueAccent,
+                        foregroundColor: Colors.white,
+                        icon: Icons.edit,
+                        label: "Edit",
+                        onPressed: (context) {
                           _openDialog(item);
                         },
+                      ),
+                    ],
+                  ),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text(item.name),
+                        subtitle: Text("Price ${item.price.toString()}"),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            _openDialog(item);
+                          },
+                        ),
                       ),
                     ),
                   ),

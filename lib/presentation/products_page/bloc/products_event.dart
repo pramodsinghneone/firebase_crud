@@ -24,7 +24,8 @@ class ProductUpdate extends ProductsEvent {
 }
 
 class ProductGetData extends ProductsEvent {
-  ProductGetData();
+  @override
+  List<Object> get props => [];
 }
 
 class ProductUpdateEvent extends ProductsEvent {
@@ -35,4 +36,11 @@ class ProductUpdateEvent extends ProductsEvent {
       {required this.docId, required this.name, required this.price});
 
   List<Object> get props => [docId, name, price];
+}
+
+class ProductDeleteEvent extends ProductsEvent {
+  final String docId;
+  ProductDeleteEvent({required this.docId});
+  @override
+  List<Object> get props => [docId];
 }

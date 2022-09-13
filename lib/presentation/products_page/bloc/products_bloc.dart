@@ -42,5 +42,16 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(ProductUpdateFailed(errorMsg: e.toString()));
       }
     });
+
+    on<ProductDeleteEvent>(
+      (event, emit) async {
+        try {
+          await productRepository.delete(path: event.docId);
+          emit(ProductDeletedSuccess());
+        } catch (e) {
+          emit(ProductDeletedFailed());
+        }
+      },
+    );
   }
 }

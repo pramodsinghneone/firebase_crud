@@ -20,7 +20,7 @@ class _EditDialogState extends State<EditDialog> {
   void initState() {
     super.initState();
     nameController.text = widget.model.name;
-    priceController.text = widget.model.price;
+    priceController.text = widget.model.price.toString();
   }
 
   @override
@@ -50,7 +50,10 @@ class _EditDialogState extends State<EditDialog> {
             ElevatedButton(
               child: const Text('Update'),
               onPressed: () {
-                if (nameController.text != widget.model.name) {
+                print(priceController.text);
+                print(widget.model.price.toString());
+                if (nameController.text != widget.model.name ||
+                    priceController.text != widget.model.price.toString()) {
                   Navigator.of(context).pop();
                   BlocProvider.of<ProductsBloc>(context).add(ProductUpdateEvent(
                       docId: widget.model.docId!,

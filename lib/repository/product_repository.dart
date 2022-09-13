@@ -60,4 +60,16 @@ class ProductRepository {
       throw Exception(e.toString());
     }
   }
+
+  Future<void> delete({required String path}) async {
+    try {
+      final resUpdated = await _finalCloudUpdate.doc(path).delete();
+    } on FirebaseException catch (e) {
+      if (kDebugMode) {
+        print("Failed with error ${e.code} : ${e.message}");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

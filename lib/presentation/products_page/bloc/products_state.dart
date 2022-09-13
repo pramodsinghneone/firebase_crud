@@ -52,3 +52,13 @@ class ProductUpdateFailed extends ProductsState {
   @override
   List<Object> get props => [errorMsg];
 }
+
+class ProductDeletedSuccess extends ProductsState {
+  @override
+  List<Object> get props => [];
+}
+
+class ProductDeletedFailed extends ProductsState {
+  @override
+  List<Object> get props => [];
+}
