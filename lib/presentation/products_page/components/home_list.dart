@@ -30,69 +30,84 @@ class _HomePageState extends State<HomePage> {
         title: const Center(child: Text("Firebase Firestore")),
       ),
       body: BlocBuilder<ProductsBloc, ProductsState>(
+        buildWhen: (context, state) {
+          print('ProductStatessssss $state');
+          return state is ProductLoaded;
+        },
         builder: (_, state) {
           if (state is ProductLoaded) {
             List<ProductModel> data = state.productList;
-            return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                var item = data[index];
-                return Slidable(
-                  key: ValueKey(item.docId),
-                  endActionPane: ActionPane(
-                    dismissible: DismissiblePane(onDismissed: () {}),
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        borderRadius: BorderRadius.circular(1),
-                        autoClose: true,
-                        flex: 1,
-                        padding: EdgeInsets.all(8),
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        spacing: 8,
-                        label: "Delete",
-                        onPressed: (context) {
-                          BlocProvider.of<ProductsBloc>(context)
-                              .add(ProductDeleteEvent(docId: item.docId!));
+            return RefreshIndicator(
+              displacement: 150,
+              backgroundColor: Colors.white,
+              color: const Color.fromARGB(255, 8, 137, 244),
+              strokeWidth: 3,
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              onRefresh: () async {
+                BlocProvider.of<ProductsBloc>(context).add(ProductGetData());
+              },
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  var item = data[index];
+                  return Slidable(
+                    key: ValueKey(item.docId),
+                    endActionPane: ActionPane(
+                      dismissible: DismissiblePane(onDismissed: () {}),
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          borderRadius: BorderRadius.circular(1),
+                          autoClose: true,
+                          flex: 1,
+                          padding: EdgeInsets.all(8),
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          spacing: 8,
+                          label: "Delete",
+                          onPressed: (context) {
+                            BlocProvider.of<ProductsBloc>(context)
+                                .add(ProductDeleteEvent(docId: item.docId!));
 
-                          BlocProvider.of<ProductsBloc>(context)
-                              .add(ProductGetData());
-                        },
-                      ),
-                      SlidableAction(
-                        borderRadius: BorderRadius.circular(1),
-                        autoClose: true,
-                        flex: 1,
-                        spacing: 8,
-                        backgroundColor: Colors.blueAccent,
-                        foregroundColor: Colors.white,
-                        icon: Icons.edit,
-                        label: "Edit",
-                        onPressed: (context) {
-                          _openDialog(item);
-                        },
-                      ),
-                    ],
-                  ),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Text(item.name),
-                        subtitle: Text("Price ${item.price.toString()}"),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
+                            BlocProvider.of<ProductsBloc>(context)
+                                .add(ProductGetData());
+                          },
+                        ),
+                        SlidableAction(
+                          borderRadius: BorderRadius.circular(1),
+                          autoClose: true,
+                          flex: 1,
+                          spacing: 8,
+                          backgroundColor: Colors.blueAccent,
+                          foregroundColor: Colors.white,
+                          icon: Icons.edit,
+                          label: "Edit",
+                          onPressed: (context) {
                             _openDialog(item);
                           },
                         ),
+                      ],
+                    ),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(item.name),
+                          subtitle: Text("Price ${item.price.toString()}"),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              _openDialog(item);
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             );
           } else if (state is ProductLoading) {
             return const Center(
