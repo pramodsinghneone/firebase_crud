@@ -15,12 +15,3 @@ class RegistrationGetEvent extends RegistrationEvent {
   @override
   List<Object> get props => [email, password];
 }
-
-class LoginGetEvent extends RegistrationEvent {
-  final String email;
-  final String password;
-
-  LoginGetEvent({required this.email, required this.password});
-  @override
-  List<Object> get props => [email, password];
-}

@@ -10,8 +10,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   AuthenticationHelper authenticationHelper;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController emailControllerLogin = TextEditingController();
-  TextEditingController passwordControllerLogin = TextEditingController();
+
   RegistrationBloc({required this.authenticationHelper})
       : super(RegistrationInitial()) {
     on<RegistrationGetEvent>((event, emit) async {
@@ -20,20 +19,15 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         final result = await authenticationHelper.signUp(
             email: event.email, password: event.password);
         if (result == 'registered') {
-          print('Registration Successfully');
           emit(RegistrationLoaded(resMsg: 'registered'));
         } else {
-          print('Registration failed');
           emit(RegistrationError(errorMsg: 'Registration failed'));
         }
       } catch (e) {
         emit(RegistrationError(errorMsg: e.toString()));
 
-        print('Registration Error');
         print(e.toString());
       }
     });
-
-    on<LoginGetEvent>((event, emit) {});
   }
 }

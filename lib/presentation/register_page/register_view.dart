@@ -54,11 +54,19 @@ class RegisterPage extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is RegistrationInitial) {
-                return const RegisterButton();
+                return RegisterButton(
+                  onLoginClick: () {
+                    onLoginClick(context);
+                  },
+                );
               } else if (state is RegistrationLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is RegistrationLoaded) {
-                return const RegisterButton();
+                return RegisterButton(
+                  onLoginClick: () {
+                    onLoginClick(context);
+                  },
+                );
               } else if (state is RegistrationError) {
                 return const Text('Register Failed');
               } else {
@@ -69,5 +77,9 @@ class RegisterPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onLoginClick(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => LoginView()));
   }
 }
