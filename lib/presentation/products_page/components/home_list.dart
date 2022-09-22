@@ -1,5 +1,6 @@
 import 'package:firebase_crud_demo/model/product_model.dart';
 import 'package:firebase_crud_demo/presentation/products_page/bloc/products_bloc.dart';
+import 'package:firebase_crud_demo/presentation/register_page/register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -27,7 +28,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Firebase Firestore")),
+        title: const Center(
+          child: Text("Firebase Firestore"),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => RegisterPage(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ],
       ),
       body: BlocBuilder<ProductsBloc, ProductsState>(
         buildWhen: (context, state) {
