@@ -42,7 +42,10 @@ dependencies:
   equatable: ^2.0.5
   flutter_slidable: ^2.0.0
   firebase_auth: ^3.9.0
-  
+  google_sign_in_web: ^0.10.2
+  google_sign_in: ^5.4.2
+  flutter_signin_button: ^2.0.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

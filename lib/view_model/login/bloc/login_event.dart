@@ -15,3 +15,8 @@ class LoginGetEvent extends LoginEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class GoogleLoginSignInevent extends LoginEvent {
+  @override
+  List<Object> get props => [];
+}

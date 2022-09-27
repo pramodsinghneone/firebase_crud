@@ -15,3 +15,13 @@ class RegistrationGetEvent extends RegistrationEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class GoogleSignInEvent extends RegistrationEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class GoogleSignOutEvent extends RegistrationEvent {
+  @override
+  List<Object> get props => [];
+}

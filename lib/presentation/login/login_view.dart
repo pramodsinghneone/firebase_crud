@@ -7,8 +7,25 @@ import '../../view_model/login/bloc/login_bloc.dart';
 import '../../view_model/registration/bloc/registration_bloc.dart';
 import '../../widgets/text_form_widget.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<LoginBloc>().emit(LoginInitial());
+  }
+
+  @override
+  void dispose() {
+    // context.read<LoginBloc>().emit(LoginInitial());
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +49,11 @@ class LoginView extends StatelessWidget {
             listener: (context, state) {
               if (state is LoginLoaded) {
                 if (state.resMsg == 'loggedIn') {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text('Logged In')));
+                  // ScaffoldMessenger.of(context)
+                  //     .showSnackBar(const SnackBar(content: Text('Logged In')));
                   context.read<LoginBloc>().emailControllerLogin.clear();
                   context.read<LoginBloc>().passwordControllerLogin.clear();
-                  Navigator.push(context,
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => HomePageFormWidget()));
                 }
               }

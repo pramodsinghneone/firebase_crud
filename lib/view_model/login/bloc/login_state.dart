@@ -30,3 +30,23 @@ class LoginError extends LoginState {
   @override
   List<Object> get props => [errorMsg];
 }
+
+class GoogleSignInLoginLoading extends LoginState {
+  @override
+  List<Object> get props => [];
+}
+
+class GoogleSignInLoginLoaded extends LoginState {
+  final GoogleSignInAccount? signInAccount;
+
+  GoogleSignInLoginLoaded({required this.signInAccount});
+  @override
+  List<Object> get props => [signInAccount!];
+}
+
+class GoogleSignInLoginError extends LoginState {
+  final String error;
+  GoogleSignInLoginError({required this.error});
+  @override
+  List<Object> get props => [error];
+}

@@ -4,9 +4,28 @@ import 'package:firebase_crud_demo/view_model/registration/bloc/registration_blo
 import 'package:firebase_crud_demo/widgets/text_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-class RegisterPage extends StatelessWidget {
+import '../home_page.dart';
+
+class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<RegistrationBloc>().emit(RegistrationInitial());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +90,40 @@ class RegisterPage extends StatelessWidget {
                 return const Text('Register Failed');
               } else {
                 return Container();
+              }
+            },
+          ),
+          const SizedBox(height: 30),
+          SignInButton(
+            Buttons.Google,
+            text: "Sign up with Google",
+            onPressed: () {
+              context.read<RegistrationBloc>().add(GoogleSignInEvent());
+            },
+          ),
+          const SizedBox(height: 30),
+          BlocConsumer<RegistrationBloc, RegistrationState>(
+            listener: (context, state) {
+              if (state is GoogleSignInLoaded) {
+                if (state.signInAccount != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Logged In Success')));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => HomePageFormWidget()));
+                }
+              }
+            },
+            builder: (context, state) {
+              if (state is GoogleSignInLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is GoogleSignInLoaded) {
+                return const SizedBox.shrink();
+              } else if (state is GoogleSignInError) {
+                return Text(state.error);
+              } else {
+                return const SizedBox.shrink();
               }
             },
           ),

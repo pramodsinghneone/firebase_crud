@@ -1,10 +1,14 @@
 import 'package:firebase_crud_demo/model/product_model.dart';
+import 'package:firebase_crud_demo/presentation/login/login_view.dart';
 import 'package:firebase_crud_demo/presentation/products_page/bloc/products_bloc.dart';
 import 'package:firebase_crud_demo/presentation/register_page/register_view.dart';
+import 'package:firebase_crud_demo/widgets/authentication_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../view_model/registration/bloc/registration_bloc.dart';
 import '../../../widgets/edit_dialog.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,11 +21,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProductsBloc>(context).add(ProductGetData());
+    checkLoggedIn();
+  }
+
+  Future<void> checkLoggedIn() async {
+    // bool loggedIn = await AuthenticationHelper().googleLoggedIn();
+    bool loggedIn = await GoogleSignIn().isSignedIn();
+    print('loggedInloggedInloggedIn $loggedIn');
+    if (loggedIn) {
+      isLoggedIn = loggedIn;
+      setState(() {});
+    }
   }
 
   @override
@@ -42,6 +58,32 @@ class _HomePageState extends State<HomePage> {
             },
             icon: const Icon(Icons.navigate_next),
           ),
+          isLoggedIn
+              ? BlocListener<RegistrationBloc, RegistrationState>(
+                  listener: (context, state) {
+                    if (state is GoogleSignOut) {
+                      if (state.message!.isNotEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Logged out success')));
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => const LoginView(),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: IconButton(
+                    onPressed: () {
+                      context
+                          .read<RegistrationBloc>()
+                          .add(GoogleSignOutEvent());
+                    },
+                    icon: const Icon(Icons.logout),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
       body: BlocBuilder<ProductsBloc, ProductsState>(

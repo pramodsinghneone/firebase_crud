@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../widgets/authentication_helper.dart';
 
@@ -28,5 +29,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         print(e.toString());
       }
     });
+
+    on<GoogleLoginSignInevent>(
+      (event, emit) async {
+        try {
+          emit(LoginLoading());
+          var accountDetails = await authenticationHelper.handleGoogleSignIn();
+          if (accountDetails != null) {
+            print('google signed in successfully');
+            emit(LoginLoaded(resMsg: 'loggedIn'));
+          } else {
+            // emit(GoogleSignInLoginError(error: 'not able to detect account'));
+            emit(LoginError(errorMsg: 'Login failed'));
+          }
+        } catch (e) {
+          // emit(GoogleSignInLoginError(error: e.toString()));
+          emit(LoginError(errorMsg: e.toString()));
+        }
+      },
+    );
   }
 }

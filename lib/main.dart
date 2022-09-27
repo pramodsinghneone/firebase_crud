@@ -10,6 +10,7 @@ import 'package:firebase_crud_demo/widgets/bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Firebase Crud',
           theme: ThemeData(

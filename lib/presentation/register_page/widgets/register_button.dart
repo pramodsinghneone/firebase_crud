@@ -32,6 +32,7 @@ class RegisterButton extends StatelessWidget {
           },
           child: const Text('Register'),
         ),
+        const SizedBox(height: 30),
         ElevatedButton(
             onPressed: onLoginClick, child: const Text('Go to Login Page')),
       ],
