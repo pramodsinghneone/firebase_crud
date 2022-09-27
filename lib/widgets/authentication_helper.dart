@@ -1,11 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../firebase_options.dart';
 
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-
+  GoogleSignIn googleSignIn = GoogleSignIn();
+  AuthenticationHelper() {
+    if (!kIsWeb) {
+      googleSignIn = GoogleSignIn(
+          clientId: DefaultFirebaseOptions.currentPlatform.iosClientId);
+    }
+  }
   // SIGNUP Method
 
   Future<String?> signUp(
