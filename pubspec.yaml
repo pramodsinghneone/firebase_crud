@@ -47,6 +47,9 @@ dependencies:
   flutter_signin_button: ^2.0.0
   get: ^4.6.5
   firebase_crashlytics: ^2.8.12
+  rename: ^2.0.1
+  firebase_messaging: ^13.0.4
+  overlay_support: ^2.0.1
   
 
 dev_dependencies:
