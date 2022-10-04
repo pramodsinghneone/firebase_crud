@@ -70,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
               } else if (state is LoginLoaded) {
                 return const LoginButton();
               } else if (state is LoginError) {
-                return Text(state.errorMsg);
+                return const LoginButton();
               } else {
                 return Container();
               }

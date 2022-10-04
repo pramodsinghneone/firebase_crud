@@ -34,7 +34,9 @@ class AuthenticationHelper {
       {required String email, required String password}) async {
     try {
       final credential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email + 'sdfsdf',
+        password: password,
+      );
       return 'loggedIn';
     } on FirebaseAuthException catch (e) {
       return e.message;

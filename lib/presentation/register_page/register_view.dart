@@ -32,6 +32,18 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registeration'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => HomePageFormWidget(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.navigate_next),
+          ),
+        ],
       ),
       body: Column(
         children: [
