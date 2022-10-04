@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         ],
         child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Firebase Crud',
+          title: 'Firebase CRUD',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
