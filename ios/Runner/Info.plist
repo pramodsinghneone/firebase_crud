@@ -61,6 +61,12 @@
 	</dict>
 	</array>
 	<!-- End of the Google Sign-in Section -->
+	<key>NSCameraUsageDescription</key>
+	<string>Camera Desc</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Micro Desc</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Desc</string>
 	
 </dict>
 </plist>

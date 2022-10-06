@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../../utils/universal_funtions.dart';
 import '../../widgets/dotted_line_view.dart';
+import 'dart:html' as html;
 
 class UserProfileView extends StatefulWidget {
   UserProfileView({Key? key}) : super(key: key);
@@ -55,9 +58,9 @@ class _UserProfileViewState extends State<UserProfileView> {
                           child: IconButton(
                               onPressed: () async {
                                 var imagePath = await pickImage();
-                                setState(() {
-                                  fileImge = imagePath;
-                                });
+                                fileImge = imagePath;
+                                await uploadImage();
+                                setState(() {});
                               },
                               icon: Icon(
                                 Icons.image_outlined,
@@ -84,6 +87,28 @@ class _UserProfileViewState extends State<UserProfileView> {
         ],
       ),
     );
+  }
+
+  Future<void> uploadImage() async {
+    if (fileImge != null) {
+      final fileName = basename(fileImge!.path);
+
+      final destination = 'file/$fileName';
+      try {
+        final ref = await FirebaseStorage.instance.ref(fileName).putData(
+            await fileImge!.readAsBytes(),
+            SettableMetadata(customMetadata: {
+              'uploaded_by': 'John',
+              'description': 'Some description...'
+            }));
+      } on FirebaseException catch (error) {
+        if (kDebugMode) {
+          print(error);
+        }
+      } catch (e) {
+        print('error occured ${e.toString()}');
+      }
+    }
   }
 
   Widget circleIMage() {

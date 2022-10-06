@@ -11,6 +11,7 @@ Future<File> pickImage({String pickType = 'gallery'}) async {
 
   try {
     var granted = await permissionCheck(pickType: pickType);
+
     if (granted) {
       if (kIsWeb) {
         image = await _picker.pickImage(source: ImageSource.gallery);
