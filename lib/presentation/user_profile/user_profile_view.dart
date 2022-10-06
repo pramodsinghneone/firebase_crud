@@ -55,35 +55,13 @@ class _UserProfileViewState extends State<UserProfileView> {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: dottedLine(),
           ),
-          // commonRow(title: 'Name', subTitle: 'John Dev'),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 108, 54, 244),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  rowItems('Name', 'John Dev'),
-                  rowItems('Email', 'dev@gmail.com'),
-                  rowItems('UserID', '111'),
-                  rowItems('Name', 'John Dev'),
-                  rowItems('Email', 'dev@gmail.com'),
-                  rowItems('UserID', '111'),
-                  rowItems('Name', 'John Dev'),
-                  rowItems('Email', 'dev@gmail.com'),
-                  rowItems('UserID', '111'),
-                ],
-              ),
-            ),
-          ),
+          commonRow(),
         ],
       ),
     );
   }
 
-  Widget commonRow({required String title, required String subTitle}) {
+  Widget commonRow() {
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Container(
@@ -93,7 +71,15 @@ class _UserProfileViewState extends State<UserProfileView> {
         ),
         child: Column(
           children: [
-            rowItems(title, subTitle),
+            rowItems('Name', 'John Dev'),
+            rowItems('Email', 'dev@gmail.com'),
+            rowItems('UserID', '111'),
+            rowItems('Name', 'John Dev'),
+            rowItems('Email', 'dev@gmail.com'),
+            rowItems('UserID', '111'),
+            rowItems('Name', 'John Dev'),
+            rowItems('Email', 'dev@gmail.com'),
+            rowItems('UserID', '111'),
           ],
         ),
       ),
