@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../home_page.dart';
+import '../user_profile/user_profile_view.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -139,6 +140,13 @@ class _RegisterPageState extends State<RegisterPage> {
               }
             },
           ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => UserProfileView()));
+              },
+              child: Text('User Profile Page')),
         ],
       ),
     );
