@@ -7,7 +7,6 @@ import 'package:path/path.dart';
 
 import '../../utils/universal_funtions.dart';
 import '../../widgets/dotted_line_view.dart';
-import 'dart:html' as html;
 
 class UserProfileView extends StatefulWidget {
   UserProfileView({Key? key}) : super(key: key);
@@ -57,10 +56,14 @@ class _UserProfileViewState extends State<UserProfileView> {
                           right: -10,
                           child: IconButton(
                               onPressed: () async {
-                                var imagePath = await pickImage();
-                                fileImge = imagePath;
-                                await uploadImage();
-                                setState(() {});
+                                try {
+                                  var imagePath = await pickImage();
+                                  fileImge = imagePath;
+                                  await uploadImage();
+                                  setState(() {});
+                                } catch (e) {
+                                  print('error occured view ${e.toString()}');
+                                }
                               },
                               icon: Icon(
                                 Icons.image_outlined,

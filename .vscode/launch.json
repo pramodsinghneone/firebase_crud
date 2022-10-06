@@ -8,7 +8,6 @@
             "name": "firebase_crud_demo",
             "request": "launch",
             "type": "dart",
-            "args": ["-d","chrome","--web-port","7654"]
         },
         {
             "name": "firebase_crud_demo (profile mode)",
@@ -23,10 +22,11 @@
             "flutterMode": "release"
         },
         {
-            "name": "Flutter Web",
+            "name": "firebase_crud_demo web",
             "request": "launch",
             "type": "dart",
-            "args": ["-d", "chrome","--web-port", "7654"],
+            "args": ["-d","chrome","--web-port","7654"]
         }
+       
     ]
 }

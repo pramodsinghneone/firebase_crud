@@ -22,29 +22,37 @@ Future<File> pickImage({String pickType = 'gallery'}) async {
           image = await _picker.pickImage(source: ImageSource.camera);
         }
       }
+      print('image $image');
       if (image != null) {
         var imageFile = File(image.path);
         pickedFile = imageFile;
       }
     }
   } catch (e) {
-    print(e.toString());
+    print('error occured uni fun${e.toString()}');
   }
+
   return pickedFile!;
 }
 
 Future<bool> permissionCheck({String pickType = 'gallery'}) async {
   bool permissionGranted = false;
   PermissionStatus status;
+
   if (!kIsWeb) {
-    if (pickType == 'gallery') {
-      await Permission.photos.request();
-      status = await Permission.photos.status;
-    } else {
-      await Permission.camera.request();
-      status = await Permission.camera.status;
-    }
-    if (status.isGranted) {
+    Map<Permission, PermissionStatus> statues = await [
+      Permission.camera,
+      Permission.storage,
+      Permission.photos
+    ].request();
+    PermissionStatus? statusCamera = statues[Permission.camera];
+    PermissionStatus? statusStorage = statues[Permission.storage];
+    PermissionStatus? statusPhotos = statues[Permission.photos];
+    bool isGranted = statusCamera == PermissionStatus.granted &&
+        statusStorage == PermissionStatus.granted &&
+        statusPhotos == PermissionStatus.granted;
+
+    if (isGranted) {
       permissionGranted = true;
     }
   } else {
