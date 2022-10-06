@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/universal_funtions.dart';
 import '../../widgets/dotted_line_view.dart';
 
 class UserProfileView extends StatefulWidget {
@@ -10,6 +14,7 @@ class UserProfileView extends StatefulWidget {
 }
 
 class _UserProfileViewState extends State<UserProfileView> {
+  File? fileImge;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,14 +36,34 @@ class _UserProfileViewState extends State<UserProfileView> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   heightSizedBox(30),
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        'https://picsum.photos/seed/picsum/200/300',
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: kIsWeb
+                            ? fileImge != null
+                                ? circleIMageWebApp(fileImge!)
+                                : circleIMage()
+                            : fileImge != null
+                                ? circleIMageWebApp(fileImge!)
+                                : circleIMage(),
                       ),
-                    ),
+                      Positioned(
+                          right: -10,
+                          child: IconButton(
+                              onPressed: () async {
+                                var imagePath = await pickImage();
+                                setState(() {
+                                  fileImge = imagePath;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.image_outlined,
+                                color: Colors.white,
+                              ))),
+                    ],
                   ),
                   heightSizedBox(30),
                   Text(
@@ -59,6 +84,24 @@ class _UserProfileViewState extends State<UserProfileView> {
         ],
       ),
     );
+  }
+
+  Widget circleIMage() {
+    return CircleAvatar(
+      backgroundImage: NetworkImage(
+        'https://picsum.photos/seed/picsum/200/300',
+      ),
+    );
+  }
+
+  Widget circleIMageWebApp(File fileImg) {
+    return kIsWeb
+        ? CircleAvatar(
+            backgroundImage: Image.network(fileImge!.path).image,
+          )
+        : CircleAvatar(
+            backgroundImage: Image.file(fileImge!).image,
+          );
   }
 
   Widget commonRow() {
